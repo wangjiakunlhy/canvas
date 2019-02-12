@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>虚线圆</title>
+</head>
+<body>
+<canvas id="canvas5" height="800" width="800" style="border:1px solid #ccc"></canvas>
+<script>
+    const canvas = document.getElementById('canvas5');
+    if(canvas.getContext){
+        const van = canvas.getContext('2d');
+        // 设置起始偏移量
+        let offSet = 0;
+        drawArcDash();
+
+        function drawArcDash() {
+            // 清除矩形内所有内容
+            van.clearRect(0,0, canvas.width, canvas.height);
+            // 开始一次绘制
+            van.beginPath();
+            // 设置虚线4-2-4-2排列
+            van.setLineDash([4,2]);
+            // 设置虚线偏移量
+            van.lineDashOffset = -offSet;
+            // 绘制圆形
+            van.arc(300,300,80,0,Math.PI*2);
+            // 执行绘制
+            van.stroke();
+            // 关闭此次绘制
+            van.closePath();
+            // 当偏移量大于16时重归0
+            if(offSet > 16){
+                offSet = 0;
+            }
+            offSet++;
+            // 通过setTimeout递归调用绘制
+            setTimeout(drawArcDash,20)
+        }
+
+    }else{
+        alert('不支持')
+    }
+</script>
+</body>
+</html>

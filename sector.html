@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>扇形画法</title>
+</head>
+<body>
+<canvas id="canvas14" width="400" height="400"></canvas>
+<script>
+    const canvas = document.getElementById('canvas14');
+    if(canvas.getContext){
+        const van = canvas.getContext('2d');
+
+        const d = Math.PI / 180;
+        drawSector(200,200,80,Math.PI/4,'red',0);
+        drawSector(200,200,80,Math.PI/4,'yellow',Math.PI/4);
+        drawSector(200,200,80,Math.PI/4,'blue',Math.PI/4*2);
+
+
+        function drawSector(x, y, raduis, deg, color, offSetDeg){
+            van.save();
+            van.translate(x,y);
+            van.rotate(offSetDeg);
+            van.beginPath();
+            van.fillStyle = color || '#000';
+            van.strokeStyle = color || '#000';
+            van.moveTo(raduis,0);
+            van.lineTo(0,0);
+            van.save();
+            van.rotate(deg);
+            van.lineTo(raduis,0);
+            van.stroke();
+            van.fill();
+            van.restore();
+            van.arc(0,0,raduis,0,deg);
+            van.fill();
+            van.closePath();
+            van.restore();
+        }
+
+
+    }else{
+        alert('不支持');
+    }
+</script>
+</body>
+</html>

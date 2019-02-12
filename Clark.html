@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>钟表</title>
+</head>
+<body>
+<canvas id="clark" width="220" height="220"></canvas>
+<script>
+    const canvas = document.getElementById('clark');
+    let van = '';
+    if(canvas.getContext){
+        van = canvas.getContext('2d');
+
+        drawClark();
+
+        // 绘制钟表
+        function drawClark() {
+            van.save();// 保存当前装填
+            van.beginPath();// 开始绘制表盘
+            van.clearRect(0,0,canvas.width,canvas.height);
+            const gradient = van.createLinearGradient(0,0,400,400);// 设置颜色过渡区域
+            gradient.addColorStop(0,'#fff');// 过渡颜色初始值
+            gradient.addColorStop(1,'#FF9800');// 过度颜色结束值
+            van.arc(110,110,100,0,Math.PI*2);// 绘制一个圆心在（110，110）半径为100的圆形
+            van.fillStyle = gradient;// 圆形以过渡颜色为填充
+            van.fill();// 绘制
+            van.closePath();// 关闭此次绘制
+            van.beginPath();
+            van.fillStyle = '#fff';// 设置填充颜色为白色
+            van.arc(110,110,8,0,Math.PI*2);// 同圆心绘制一个半径8的圆形
+            van.fill();// 绘制
+            van.restore();// 恢复到保存时的状态
+
+            drawMins();
+            drawHourse();
+            drawHourseNum();
+            drawPoint();
+            setTimeout(drawClark,1000);
+        }
+
+        // 绘制时分秒针
+        function drawPoint(){
+            let date = new Date();
+            const second = date.getSeconds();
+            const mins = date.getMinutes() + second / 60;
+            const hours = date.getHours() + mins / 60;
+            van.save(); // 保存当前状态
+            van.translate(110,110); // 平移到圆心位置
+            van.lineWidth = 2;// 设置线宽为2
+            van.strokeStyle = '#fff';
+            van.beginPath();
+            van.rotate((Math.PI / 30)*second - (Math.PI/2));// 偏转角度
+            van.lineTo(93,0);// 绘制横线终点
+            van.lineTo(-20,0);// 绘制横线起点
+            van.stroke(); // 绘制
+            van.restore();// 还原状态
+
+            van.save(); // 保存当前状态
+            van.translate(110,110); // 平移到圆心位置
+            van.lineWidth = 5;// 设置线宽为5
+            van.strokeStyle = '#fff';
+            van.beginPath();
+            van.rotate((Math.PI / 30)*mins - (Math.PI/2));// 偏转角度
+            van.lineTo(84,0);// 绘制横线终点
+            van.lineTo(0,0);// 绘制横线起点
+            van.stroke(); // 绘制
+            van.restore();// 还原状态
+
+            van.save(); // 保存当前状态
+            van.translate(110,110); // 平移到圆心位置
+            van.lineWidth = 9;// 设置线宽
+            van.strokeStyle = '#fff';
+            van.beginPath();
+            van.rotate((Math.PI / 6)*hours - (Math.PI/2));// 偏转角度
+            van.lineTo(70,0);// 绘制横线终点
+            van.lineTo(0,0);// 绘制横线起点
+            van.stroke(); // 绘制
+            van.restore();// 还原状态
+
+            date = null;
+        }
+
+        // 绘制小时刻度
+        function drawHourse() {
+            van.save();
+            van.translate(110,110);
+            for(let i=0;i<12;i++){
+                van.lineWidth = 2;
+                van.strokeStyle = '#fff';
+                van.beginPath();
+                van.rotate(Math.PI / 6);
+                van.lineTo(100,0);
+                van.lineTo(90,0);
+                van.stroke();
+            }
+
+            van.restore();
+        }
+
+        // 绘制小时数字
+        function drawHourseNum() {
+            van.save();
+            van.translate(110,110);
+            const ys = [-76,4,80,4];
+            const xs = [-4,80,-4,-80];
+            for(let i=0;i<4;i++){
+                van.font = '16px serif';
+                van.beginPath();
+                van.fillText(i*3 === 0 ? 12 : i*3,xs[i],ys[i]);
+                van.stroke();
+            }
+
+            van.restore();
+        }
+
+        // 绘制分钟刻度
+        function drawMins() {
+            van.save(); // 保存当前状态
+            van.translate(110,110); // 平移到圆心位置
+            for(let i=0;i<60;i++){
+                van.lineWidth = 2;// 设置线宽为2
+                if((i+1)%5 === 0){
+                    van.strokeStyle = '#fff'; // 如果是小时设置颜色为白色
+                }else{
+                    van.strokeStyle = '#000'; // 分钟设置颜色为黑色
+                }
+                van.beginPath();
+                van.rotate(Math.PI / 30);// 偏转角度
+                van.lineTo(100,0);// 绘制横线起点
+                van.lineTo(95,0);// 绘制横线终点
+                van.stroke(); // 绘制
+            }
+            van.restore();// 还原状态
+        }
+
+    }else{
+        alert('不支持');
+    }
+</script>
+</body>
+</html>

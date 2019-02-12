@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>水平进度条</title>
+</head>
+<body>
+<canvas id="canvas8" height="600" width="600" style="border:1px solid #ccc;"></canvas>
+<script>
+    const canvas = document.getElementById('canvas8');
+    if(canvas.getContext){
+        const van = canvas.getContext('2d');
+        let progress = 0;
+        drawProgress();
+        
+        function drawProgress() {
+            // 清空画布(每次清空画布重新绘制，才能更新)
+            van.clearRect(0,0,canvas.width,canvas.height);
+            // 首先绘制背景
+            drawBg();
+            // 开始绘制绿色线段
+            van.beginPath();
+            van.lineWidth = 12;// 设置线宽
+            van.strokeStyle = 'green';// 画笔颜色
+            van.lineTo(300,300);
+            van.lineTo(300+progress,300);
+            van.stroke();
+            van.closePath();
+            // 开始绘制变动的数字
+            van.beginPath();
+            van.lineWidth = 1;
+            van.fillStyle = '#4a4a4a';
+            van.font = '14px serif';
+            van.fillText(parseInt(progress/2)+'%',504,305);
+            van.fill();
+            van.closePath();
+            progress++;
+            if(progress <= 200){
+                // 通过setTimeout进行递归调用更新
+                setTimeout(()=>{
+                    drawProgress();
+                },20)
+            }
+        }
+
+        /**
+         * 绘制背景灰色线段
+         */
+        function drawBg(){
+            van.beginPath();
+            van.lineWidth = 12;
+            van.strokeStyle = '#ccc';
+            van.lineTo(300,300);
+            van.lineTo(500,300);
+            van.stroke();
+            van.closePath(); 
+        }
+
+    }else{
+        alert('不支持');
+    }
+</script>
+</body>
+</html>

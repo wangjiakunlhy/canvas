@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跳动的小球</title>
+</head>
+<body>
+<canvas id="canvas13" width="300" height="600" style="border:1px solid blue">
+
+</canvas>
+<script>
+    const canvas = document.getElementById('canvas13');
+    if(canvas.getContext){
+        const van = canvas.getContext('2d');
+        const R = 10;// 定义小球半径
+        let anima; // 动画
+
+        // 定义小球对象
+        class Ball{
+            /**
+             * 构造方法
+             * @param x  x坐标
+             * @param y  y坐标
+             * @param color 小球颜色
+             * @param radius 半径
+             */
+            constructor(x=100,y=100,color='yellow',radius=R){
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = radius;
+                this.vx = 4;
+                this.vy = 0;
+            }
+
+            /**
+             * 绘制小球
+             */
+            drawBall(){
+                van.beginPath();
+                van.fillStyle = this.color;
+                van.arc(this.x,this.y,this.radius,0,Math.PI*2);
+                van.fill();
+                van.closePath();
+            }
+        }
+
+        // 画布内的所有小求
+        const balls = [];
+        // 生成小球并放到 balls 数组中
+        createBall(2);
+
+        /**
+         * 生成小球对象实例
+         * @param num 生成个数
+         */
+        function createBall(num) {
+            for(let i=0;i<num;i++){
+                // 生成的小球位置和颜色
+                const ball = new Ball(R*i+10,R*i,`rgb(${225/num*i},${Math.random()*225},0)`);
+                balls.push(ball);
+            }
+        }
+
+        // 绘制整个画布
+        function draw(){
+            // 清空画布，如果执行该行则无长尾效果。
+            van.clearRect(0,0,canvas.width,canvas.height)
+            // van.fillStyle = 'rgb(255,255,255,0.3)';
+            // van.fillRect(0,0,canvas.width,canvas.height);
+
+            balls.forEach(b=>{
+                updateBall(b);
+            })
+
+            anima = window.requestAnimationFrame(draw);
+        }
+
+        /**
+         * 更新小球位置
+         * @param ball  小球对象
+         */
+        function updateBall(ball){
+            if(ball.x + ball.vx > canvas.width - R || ball.x + ball.vx < R){
+                ball.vx = -ball.vx;
+                ball.x += ball.vx;
+            }else{
+                ball.x += ball.vx;
+            }
+            if(ball.y + ball.vy > canvas.height - R){
+                ball.vy = -ball.vy*0.88;
+                ball.y = canvas.height - R;
+            }else{
+                ball.y += ball.vy;
+            }
+
+            ball.vy += 0.98;
+            ball.drawBall();
+        }
+
+
+        // 设置鼠标进入画布区域内开始绘制
+        canvas.addEventListener('mouseover',()=>{
+            draw();
+        });
+
+        // 设置鼠标离开画布区域停止绘制
+        canvas.addEventListener('mouseout',()=>{
+            window.cancelAnimationFrame(anima);
+        })
+
+    }else{
+        alert('不支持');
+    }
+</script>
+</body>
+</html>

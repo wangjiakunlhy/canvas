@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片裁剪</title>
+</head>
+<body>
+<canvas id="canvas9" height="800" width="800" style="border:1px solid #ccc;"></canvas>
+<script>
+    const canvas = document.getElementById('canvas9');
+    if(canvas.getContext){
+        const van = canvas.getContext('2d');
+
+        const img = new Image();
+        img.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546509085701&di=fc33ffbec42f2ab7017b6bf926d7db68&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20161014%2F3fa537262f2c4d2993d8878def8412e2_th.jpg';
+        img.onload = function () {
+            van.drawImage(img,0,0,150,150,0,0,300,300);
+        }
+
+        const img2 = new Image();
+        img2.src = './images/bg.jpg';
+        img2.onload = function () {
+            van.drawImage(img2,100,100,150,150,300,0,300,300);
+        }
+
+        /***
+         * drawImage(img,x,y)  x,y 标示坐标位置
+         * drawImage(img,x,y,w,H) x,y 标示坐标位置，w控制图片的宽度，H控制图片高度。等比缩放
+         * drawImage(img,x2,y2,W2,H2,x1,y1,W1,H1) 复杂哟，比较坑爹这个顺序
+         * x2,y2 表示图片已经放好了的情况下相对于图片的左上角(0,0)的坐标系位置,所以w2,h2就是从图片上切出的图片宽高。
+         * x1,y1 就跟上面两个一样了，表示相对于整个canvas的坐标系的坐标位置，w1,h1也就是表示上面切出来的宽高为w2,h2的图片在canvas显示的宽高。
+         */
+
+    }else{
+        alert('不支持');
+    }
+</script>
+</body>
+</html>

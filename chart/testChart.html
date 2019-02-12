@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>line</title>
+    <script src="base-chart.js"></script>
+    <script src="base-circle.js"></script>
+</head>
+<body>
+<div style="display: flex; flex-wrap: wrap">
+    <canvas id="line" ></canvas>
+    <canvas id="point" ></canvas>
+    <canvas id="brokenLine" ></canvas>
+    <canvas id="histogram" ></canvas>
+    <canvas id="circle" ></canvas>
+</div>
+<script>
+    const canvas = document.getElementById('line');
+    const canvas2 = document.getElementById('point');
+    const canvas3 = document.getElementById('brokenLine');
+    const canvas4 = document.getElementById('histogram');
+    const canvas5 = document.getElementById('circle');
+    const testData = [
+        {month:'1月',value:80},
+        {month:'2月',value:30},
+        {month:'3月',value:-80},
+        {month:'4月',value:160},
+        {month:'5月',value:77},
+        {month:'6月',value:50},
+    ]
+    const testData2 = [
+        {name:'测试1',age:31},
+        {name:'测试2',age:33},
+        {name:'测试3',age:23},
+        {name:'测试4',age:34},
+        {name:'测试5',age:33},
+        {name:'测试6',age:34},
+        {name:'测试7',age:26},
+        {name:'测试8',age:24},
+        {name:'测试10',age:33},
+        {name:'测试9',age:13},
+        {name:'前台13',age:30},
+        {name:'前台22',age:35},
+    ]
+    if(canvas.getContext){
+        const opt = {
+            w:400,
+            h:400,
+            padding:100
+        }
+        const base = new BrokenLine(opt,canvas,testData,'month','value','line');
+        const base2 = new BrokenLine(opt,canvas2,testData,'month','value','point');
+        const base3 = new BrokenLine(opt,canvas3,testData,'month','value');
+        const base4 = new Histogram(opt,canvas4,testData,'month','value');
+        const base5 = new Histogram(opt,canvas4,testData,'month','value');
+        const base6 = new Nightingale(opt,canvas5,testData2,'name','age','ring');
+
+    }else{
+        alert('不支持');
+    }
+</script>
+</body>
+</html>

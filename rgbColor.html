@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>颜色块</title>
+</head>
+<body>
+<canvas id="canvas4" height="800" width="800" style="border:1px solid #ccc"></canvas>
+
+<script>
+    let canvas = document.getElementById('canvas4');
+    let rows = 10;
+    if(canvas.getContext){
+       let van = canvas.getContext('2d');
+       staticRed1(van);
+       staticGreen1(van);
+       staticBlue1(van);
+       staticBlueArc(van);
+       drawAlpha(van);
+
+    }else{
+        alert('不支持');
+    }
+
+
+    function staticRed1(van){
+        for(let i=0;i<rows;i++){
+            for(let j=0;j<rows;j++){
+                van.fillStyle = `rgb(0,${Math.floor(255-21.25*i)},${Math.floor(255-21.25*j)})`;
+                van.fillRect(j*25,i*25,25,25)
+            }
+        }
+    }
+
+    function staticGreen1(van){
+        for(let i=0;i<rows;i++){
+            for(let j=0;j<rows;j++){
+                van.fillStyle = `rgb(${255-21.25*i},0,${255-21.25*j})`;
+                van.fillRect(j*25+320,i*25,25,25)
+            }
+        }
+    }
+
+
+    function staticBlue1(van){
+        for(let i=0;i<rows;i++){
+            for(let j=0;j<rows;j++){
+                van.fillStyle = `rgb(${255-21.25*i},${255-21.25*j},0)`;
+                van.fillRect(j*25,i*25+320,25,25)
+            }
+        }
+    }
+
+    function staticBlueArc(van) {
+        for(let i=0;i<rows;i++){
+            for(let j=0;j<rows;j++){
+                van.beginPath();
+                van.strokeStyle = `rgb(${255-21.25*i},${255-21.25*j},0)`;
+                van.arc(25*j + 332.5,i*25 + 332.5,10,0,Math.PI*2,false);
+                van.stroke();
+                van.closePath();
+            }
+        }
+    }
+
+
+    function drawAlpha(van) {
+        van.beginPath();
+        van.fillStyle = '#FD0';
+        van.fillRect(0,640,40,40);
+        van.fillStyle = '#6C0';
+        van.fillRect(40,640,40,40);
+        van.fillStyle = '#09F';
+        van.fillRect(0,680,40,40);
+        van.fillStyle = '#F30';
+        van.fillRect(40,680,40,40);
+        van.fillStyle = '#FFF';
+        van.globalAlpha = 0.2;
+        for(let i=0;i<8;i++){
+            van.arc(40,680,5+5*i,0,Math.PI*2,false);
+            van.fill();
+        }
+    }
+
+</script>
+</body>
+</html>
