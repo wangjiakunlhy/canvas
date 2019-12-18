@@ -2,7 +2,7 @@
 **canvas入门教程demo**
 **教程正在更新中，地址：[canvas入门](https://blog.csdn.net/wjk_along/article/category/8301799)**
 ## 1.图表(chart)
-![chart](https://github.com/wangjiakunlhy/canvas/blob/master/images/test/chart.jpg)
+![chart](./images/test/chart.jpg)
 
 ## 2.钟表(clark)
 ![clark](./images/test/clark.gif)
